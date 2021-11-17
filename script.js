@@ -135,46 +135,94 @@ const addToCard= function(name,image_url){
 
 function showCartItem(localItem,localImage){
     
-    let test_ShoppingCart=document.getElementById("test_ShoppingCart") 
-   // console.log(localItem,localImage);
-    if(test_ShoppingCart){
-    if(localItem.length>1){    
-   for(let i=0;i<localItem.length;i++){
-       
- test_ShoppingCart.insertAdjacentHTML("afterbegin",`
-    <div class="card"><img class="card-img-top" src="${localImage[i]}" alt="Card image cap">
+//    let test_ShoppingCart=document.getElementById("test_ShoppingCart") 
+//   // console.log(localItem,localImage);
+//    if(test_ShoppingCart){
+//    if(localItem.length>1){    
+//   for(let i=0;i<localItem.length;i++){
+//       
+// test_ShoppingCart.insertAdjacentHTML("afterbegin",`
+//    <div class="card"><img class="card-img-top" src="${localImage[i]}" alt="Card image cap">
+//
+//    <div class="card-body">
+//
+//    <h5 class="login">${localItem[i]}</h5><span>
+//    <button class='remove' type='submit'>Remove Item</button>
+//   
+//    </div></div>`);
+//       
+////       document.querySelector(".remove").addEventListener("click", ()=>{
+////        removeItem(localItem[i],localItem,localImage);
+////        });
+////       
+//      
+//   }
+//    }
+//        else{
+//            console.log("no item");
+//        }
+//    }
+    
+    let testShoppingCart=document.querySelector('#test_ShoppingCart');
+    if(testShoppingCart && localItem[0]!=""){
+   
+for(let i=0;i<localItem.length;i++){  
+    
+testShoppingCart.insertAdjacentHTML('afterbegin', `
 
+<div class="card"><img class="card-img-top" src="${localImage[i]}" alt="Card image cap">
     <div class="card-body">
-
     <h5 class="login">${localItem[i]}</h5><span>
     <button class='remove' type='submit'>Remove Item</button>
-   
-    </div></div>`);
-       
-//       document.querySelector(".remove").addEventListener("click", ()=>{
-//        removeItem(localItem[i],localItem,localImage);
-//        });
-//       
-      
-   }
-    }
-        else{
-            console.log("no item");
-        }
-    }
+    </div></div>`)
     
 }
+        
+        
+remove(); 
+        
+    }
+    else{
+        testShoppingCart.insertAdjacentHTML('afterbegin', `
+
+        <div class="card"> No Item</div>`)
+        
+    }
+    }
+
 
 let localItem=localStorage.getItem("item").split(',');
 let localImage=localStorage.getItem("image_url").split(',');
+const remove=()=>{
+    let removeBtn=document.querySelectorAll('.remove');
+removeBtn.forEach((e,i)=>{
+    
+    e.addEventListener('click', ()=>{
+     
+    let parentNode=e.parentElement;
+    let loginName=parentNode.parentElement.firstElementChild.innerHTML;
+    //let loginName=document.querySelector(.`${login}`);  
+        const index = localItem.indexOf(loginName);
+            
+              //console.log("delete"+ index);
+                localItem.splice(index, 1);
+                localImage.splice(index,1);
+                //showCartItem(localItem,localImage);
+                localStorage.setItem('item',localItem);
+                localStorage.setItem('image_url',localImage);
+                location.reload();
+                                    
+                                    });
+})
+}
+
 showCartItem(localItem,localImage);
 // Remove item logic to be build
 
 
 
     
-//let name=document.querySelector(".login").innerHTML;
-//let image_url=document.querySelector(".card-img-top").getAttribute('src');
+
 
 
 
